@@ -31,7 +31,8 @@ import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
-import org.jcryptool.core.util.ui.auto.LayoutAdvisor;
+import org.jcryptool.core.util.ui.autoswt.Handlers;
+import org.jcryptool.core.util.ui.autoswt.LayoutAdvisor;
 import org.jcryptool.crypto.keystore.ui.views.nodes.Contact;
 import org.jcryptool.crypto.keystore.ui.views.nodes.ContactManager;
 import org.jcryptool.visual.extendedrsa.ui.wizards.DeleteIdentityWizard;
@@ -68,6 +69,11 @@ public class ExtendedRSA_Visual extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		LayoutAdvisor.getInstance().addManaged(this, parent);
+		LayoutAdvisor.getInstance().addHandler(this, Handlers.createScrolledWrapWidthHintHandler());
+		
+		LayoutAdvisor.getInstance().notifyCreatePartControl(this);
 
 		// make the composite scrollable
 		sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
@@ -175,7 +181,7 @@ public class ExtendedRSA_Visual extends ViewPart {
 
 		sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		LayoutAdvisor.addPreLayoutRootComposite(sc);
+		LayoutAdvisor.getInstance().notifyEndOfCreatePartControl(this);
 	}
 
 	private void initKeystore() {

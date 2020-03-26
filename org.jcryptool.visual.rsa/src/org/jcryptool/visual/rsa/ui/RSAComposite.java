@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
-import org.jcryptool.core.util.ui.auto.LayoutAdvisor;
+import org.jcryptool.core.util.ui.autoswt.LayoutAdvisor;
 import org.jcryptool.crypto.ui.textblockloader.NumberblocksAndTextViewer;
 import org.jcryptool.crypto.ui.textblockloader.Repr;
 import org.jcryptool.crypto.ui.textblockloader.conversion.ConversionStringToBlocks;
