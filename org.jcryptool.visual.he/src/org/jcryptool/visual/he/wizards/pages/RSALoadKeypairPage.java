@@ -94,6 +94,12 @@ public class RSALoadKeypairPage extends WizardPage {
         }
     }
 
+	private void updateFromStorecombo() {
+		privateAlias = keyStoreItems.get(combo.getText());
+		publicAlias = getPublicForPrivate();
+		checkComplete();
+	}
+
     public void createControl(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         // do stuff like layout et al
@@ -104,9 +110,7 @@ public class RSALoadKeypairPage extends WizardPage {
         combo.setItems(keyStoreItems.keySet().toArray(new String[keyStoreItems.size()]));
         combo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                privateAlias = keyStoreItems.get(combo.getText());
-                publicAlias = getPublicForPrivate();
-                checkComplete();
+                updateFromStorecombo();
             }
         });
         combo.select(0);
@@ -126,6 +130,7 @@ public class RSALoadKeypairPage extends WizardPage {
             }
         });
         setControl(composite);
+        updateFromStorecombo();
     }
 
     /**
