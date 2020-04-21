@@ -782,7 +782,7 @@ public class HuffmanCodingView extends ViewPart {
 					textFileUncompName.setSelection(filePath.length());
 
 					try {
-						Scanner scanner = new Scanner(fileUncomp, "ISO-8859-1"); //$NON-NLS-1$
+						Scanner scanner = new Scanner(fileUncomp, "UTF-8"); //$NON-NLS-1$
 						String fileString = scanner.useDelimiter("\\Z").next(); //$NON-NLS-1$
 						scanner.close();
 
@@ -1078,10 +1078,11 @@ public class HuffmanCodingView extends ViewPart {
 		ArrayList<Integer> readBytes = new ArrayList<>();
 
 		try {
-			readFile = new DataInputStream(new BufferedInputStream(new FileInputStream(new File(path))));
-			int lineOfBytes;
-			while ((lineOfBytes = readFile.read()) != -1) {
-				readBytes.add(lineOfBytes);
+			readFile = new DataInputStream(new FileInputStream(new File(path)));
+// 			readFile = new DataInputStream(new BufferedInputStream(new FileInputStream(new File(path))));
+			byte[] bytes = readFile.readAllBytes();
+			for (byte b: bytes) {
+				readBytes.add(b & 0xFF);
 			}
 		} catch (IOException e1) {
 			LogUtil.logError(e1);

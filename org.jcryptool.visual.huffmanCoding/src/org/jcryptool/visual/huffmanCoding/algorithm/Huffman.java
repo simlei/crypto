@@ -63,14 +63,15 @@ public class Huffman {
 	public void compress(String input) throws IOException {
 
 		InputStream is = new ByteArrayInputStream(input.getBytes());
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+// 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+// 		InputStreamReader br = new InputStreamReader(is);
 
 		bitArray = new ArrayList<>();
 		/*
 		 * read file and create a statistic
 		 */
 		ArrayList<Integer> inputFile = new ArrayList<Integer>();
-		int[] charStats = createStatistics(br, inputFile);
+		int[] charStats = createStatistics(input.getBytes(), inputFile);
 
 		/*
 		 * create node set and calculate the probabilities
@@ -241,7 +242,9 @@ public class Huffman {
 				mask = 0x80;
 			}
 
-			tmp = huffmanBinary[i] & mask;
+			if (i < huffmanBinary.length) {
+				tmp = huffmanBinary[i] & mask;
+			}
 			mask >>= 1;
 		}
 
@@ -309,28 +312,37 @@ public class Huffman {
 		return nodeList;
 	}
 
-	private int[] createStatistics(BufferedReader br, ArrayList<Integer> file) throws IOException {
-		int tmp;
+	private int[] createStatistics(byte[] bytes, ArrayList<Integer> file) throws IOException {
+// 		int tmp;
 		int charStats[] = new int[256];
-		tmp = br.read();
-		if (tmp == -1) {
-			charStats[0]++;
-			file.add(0);
-		} else
-			file.add(tmp);
-		while (tmp != -1) {
-			if (tmp == (char) 0 || tmp >= 256) {
-				br.close();
-				throw new InvalidCharacterException();
-			}
-			charStats[tmp]++;
-			tmp = br.read();
-
-			if (tmp == -1) {
+//		tmp = br.read();
+//		if (tmp == -1) {
+//			charStats[0]++;
+//			file.add(0);
+//		} else
+//			file.add(tmp);
+//		while (tmp != -1) {
+//			if (tmp == (char) 0 || tmp >= 256) {
+//				br.close();
+//				throw new InvalidCharacterException();
+//			}
+//			charStats[tmp]++;
+//			tmp = br.read();
+//
+//			if (tmp == -1) {
+//				charStats[0]++;
+//				file.add(0);
+//			} else
+//				file.add(tmp);
+//		}
+		for (byte tmp : bytes) {
+			int tmp2 = tmp  & 0xFF;
+			charStats[tmp2]++;
+			if (tmp2 == -1) {
 				charStats[0]++;
 				file.add(0);
 			} else
-				file.add(tmp);
+				file.add(tmp2);
 		}
 		return charStats;
 	}
